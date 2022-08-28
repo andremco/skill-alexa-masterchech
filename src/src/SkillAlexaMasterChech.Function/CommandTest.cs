@@ -20,19 +20,21 @@ namespace SkillAlexaMasterChech.Function
         public static async Task<IActionResult> Run(
         [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req, ILogger log)
         {
-            //string json = await req.ReadAsStringAsync();
-            //var skillRequest = JsonConvert.DeserializeObject<SkillRequest>(json);
+            string json = await req.ReadAsStringAsync();
+            var skillRequest = JsonConvert.DeserializeObject<SkillRequest>(json);
 
-            //var requestType = skillRequest.GetRequestType();
+            log.LogInformation(json);
+
+            var requestType = skillRequest.GetRequestType();
 
             SkillResponse response = null;
             response = ResponseBuilder.Tell("Welcome to the new world!");
 
-            //if (requestType == typeof(LaunchRequest))
-            //{
-            //    response = ResponseBuilder.Tell("Welcome to the new world!");
-            //    response.Response.ShouldEndSession = false;
-            //}
+            if (requestType == typeof(LaunchRequest))
+            {
+                response = ResponseBuilder.Tell("Welcome to the new world!");
+                response.Response.ShouldEndSession = false;
+            }
 
             return new OkObjectResult(response);
         }
