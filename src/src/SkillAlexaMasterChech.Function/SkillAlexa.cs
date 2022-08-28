@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +10,9 @@ using Newtonsoft.Json;
 
 namespace SkillAlexaMasterChech.Function
 {
-    public static class Function1
+    public static class CommandTest
     {
-        [FunctionName("Function1")]
+        [FunctionName("CommandTest")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
