@@ -26,22 +26,22 @@ steps:
     projects: '**/*.sln'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Tests Project $(BuildConfiguration)'
   inputs:
-    command: publish
-    arguments: '--configuration Release --output publish_output'
-    projects: '**/*.csproj'
-    publishWebProjects: false
-    modifyOutputPath: false
-    zipAfterPublish: false
+    command: 'test'
+    projects: '**/*.Tests.csproj'
 
-- task: ArchiveFiles@2
-  displayName: "Archive files"
+- task: DotNetCoreCLI@2
+  displayName: 'Publish Project $(BuildConfiguration) to $(System.ArtifactsDirectory)'
   inputs:
-    rootFolderOrFile: "$(System.DefaultWorkingDirectory)/publish_output"
-    includeRootFolder: false
-    archiveFile: "$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip"
+    command: 'publish'
+    projects: '**/$(NameProject).csproj'
+    arguments: '/p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(System.ArtifactsDirectory)'
+    publishWebProjects: true
 
 - task: PublishBuildArtifacts@1
+  displayName: 'Artifacts $(System.ArtifactsDirectory)'
   inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
-    artifactName: 'drop'
+    pathtoPublish: '$(System.ArtifactsDirectory)' 
+    artifactName: 'drop' 
+    publishLocation: 'Container'
