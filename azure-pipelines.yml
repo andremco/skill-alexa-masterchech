@@ -35,7 +35,7 @@ steps:
   displayName: 'Publish Project $(BuildConfiguration) to $(System.ArtifactsDirectory)'
   inputs:
     command: 'publish'
-    projects: '**/$(NameProject).csproj'
+    projects: '**/*.sln'
     arguments: '/p:Configuration=$(BuildConfiguration) /p:EnvironmentName=Production -o $(System.ArtifactsDirectory)'
     publishWebProjects: true
 
