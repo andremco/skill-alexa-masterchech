@@ -28,11 +28,10 @@ namespace SkillAlexaMasterChech.Function
             var requestType = skillRequest.GetRequestType();
 
             SkillResponse response = null;
-            response = ResponseBuilder.Tell("Welcome to the new world!");
 
             if (requestType == typeof(LaunchRequest))
             {
-                response = ResponseBuilder.Tell("Welcome to the new world!");
+                response = ResponseBuilder.Tell("Farofa estragada com tijolo triturado");
                 response.Response.ShouldEndSession = false;
             }
 
