@@ -18,7 +18,7 @@ namespace SkillAlexaMasterChech.Function
     {
         [FunctionName("CommandTest")]
         public static async Task<IActionResult> Run(
-        [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req, ILogger log)
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req, ILogger log)
         {
             string json = await req.ReadAsStringAsync();
             var skillRequest = JsonConvert.DeserializeObject<SkillRequest>(json);
