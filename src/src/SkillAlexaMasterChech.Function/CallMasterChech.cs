@@ -11,19 +11,26 @@ using Alexa.NET.Request;
 using Alexa.NET.Response;
 using Alexa.NET.Request.Type;
 using Alexa.NET;
+using SkillAlexaMasterChech.Core.Services.WorkContentService;
+using System.Linq;
 
 namespace SkillAlexaMasterChech.Function
 {
-    public static class CommandTest
+    public class CallMasterChech
     {
-        [FunctionName("CommandTest")]
-        public static async Task<IActionResult> Run(
+        private readonly IWorkContentService _workContentService;
+
+        public CallMasterChech(IWorkContentService workContentService)
+        {
+            _workContentService = workContentService;
+        }
+
+        [FunctionName("CallMasterChech")]
+        public async Task<IActionResult> Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req, ILogger log)
         {
             string json = await req.ReadAsStringAsync();
             var skillRequest = JsonConvert.DeserializeObject<SkillRequest>(json);
-
-            log.LogInformation(json);
 
             var requestType = skillRequest.GetRequestType();
 
@@ -31,8 +38,13 @@ namespace SkillAlexaMasterChech.Function
 
             if (requestType == typeof(LaunchRequest))
             {
-                response = ResponseBuilder.Tell("Farofa estragada com tijolo triturado");
-                response.Response.ShouldEndSession = false;
+                var speech = await _workContentService.LoadRecipeForAlexa();
+
+                if (!string.IsNullOrWhiteSpace(speech))
+                {
+                    response = ResponseBuilder.Tell(speech);
+                    response.Response.ShouldEndSession = false;
+                }
             }
 
             return new OkObjectResult(response);
