@@ -36,7 +36,7 @@ namespace SkillAlexaMasterChech.Function
 
             SkillResponse response = null;
 
-            if (requestType == typeof(LaunchRequest))
+            if (requestType == typeof(LaunchRequest) || requestType == typeof(IntentRequest))
             {
                 var speech = await _workContentService.LoadRecipeForAlexa();
 
