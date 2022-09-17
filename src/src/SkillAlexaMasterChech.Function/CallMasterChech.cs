@@ -43,7 +43,7 @@ namespace SkillAlexaMasterChech.Function
                 if (!string.IsNullOrWhiteSpace(speech))
                 {
                     response = ResponseBuilder.Tell(speech);
-                    response.Response.ShouldEndSession = false;
+                    response.Response.ShouldEndSession = true;
                 }
             }
 
